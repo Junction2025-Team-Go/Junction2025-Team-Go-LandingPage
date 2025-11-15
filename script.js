@@ -107,15 +107,15 @@ document.head.appendChild(style);
 
 // Image Transition Animation
 let currentImageIndex = 0;
-let images = ['a', 'b', 'c', 'd'];
+let images = ['a', 'b', 'c'];
 const transitionDuration = 2000; // 2 seconds per image
 
 // Check if mobile and adjust images array
 function checkMobileAndAdjustImages() {
     if (window.innerWidth <= 768) {
-        images = ['a', 'b', 'd']; // Remove 'c' on mobile
+        images = ['a', 'b', 'c']; // Same images on mobile
     } else {
-        images = ['a', 'b', 'c', 'd']; // Include all images on desktop
+        images = ['a', 'b', 'c']; // Same images on desktop
     }
 }
 

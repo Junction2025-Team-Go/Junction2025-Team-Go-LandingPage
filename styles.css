@@ -210,9 +210,10 @@ body {
 /* Image Transition Container */
 .image-transition-container {
     position: relative;
-    width: 400px;
-    height: 500px;
-    overflow: hidden;
+    width: 350px;
+    height: auto;
+    min-height: 450px;
+    overflow: visible;
     max-width: 100%;
 }
 
@@ -235,7 +236,8 @@ body {
 .transition-image img {
     width: 100%;
     height: auto;
-    max-height: 100%;
+    max-height: none;
+    object-fit: contain;
     display: block;
     margin: 0 auto;
 }
@@ -407,7 +409,7 @@ body {
 /* Support Counter Section */
 .support-counter-section {
     padding: 4rem 0;
-    background: url('img/wall.jpeg') no-repeat center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('img/wall.jpg') no-repeat center center;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -492,7 +494,7 @@ body {
 /* Features Section */
 .features-section {
     padding: 80px 0;
-    background: url('img/wall.jpeg');
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('img/wall.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -503,7 +505,7 @@ body {
 /* Why Hei-Local Section - Same background as Features */
 .why-section {
     padding: 80px 0;
-    background: url('img/wall.jpeg');
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('img/wall.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -514,7 +516,7 @@ body {
 /* Why Card Section */
 .why-card-section {
     padding: 80px 0;
-    background: url('img/wall.jpeg');
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('img/wall.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -542,8 +544,8 @@ body {
 }
 
 .upstage-image {
-    max-width: 15% !important;
-    width: 15% !important;
+    max-width: 20% !important;
+    width: 20% !important;
     height: auto !important;
 }
 
@@ -586,7 +588,7 @@ body {
 /* YouTube Video Section */
 .youtube-section {
     padding: 4rem 0;
-    background: url('img/wall.jpeg') no-repeat center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('img/wall.jpg') no-repeat center center;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -637,7 +639,7 @@ body {
 /* YouTube Video Section */
 .youtube-video-section {
     padding: 0 0 4rem 0; /* Adjusted padding to move video higher */
-    background: url('img/wall.jpeg') no-repeat center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('img/wall.jpg') no-repeat center center;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -648,7 +650,7 @@ body {
 /* Comments Section */
 .comments-section {
     padding: 4rem 0;
-    background: url('img/wall.jpeg') no-repeat center center;
+    background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('img/wall.jpg') no-repeat center center;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -1245,6 +1247,14 @@ iframe[src*="youtube.com"] {
         width: 100%;
     }
     
+    .hero-visual {
+        order: -1;
+    }
+    
+    .hero-content {
+        order: 1;
+    }
+    
     .hero-title {
         font-size: 2.5rem;
     }
@@ -1258,9 +1268,16 @@ iframe[src*="youtube.com"] {
     }
     
     .image-transition-container {
-        width: 300px;
-        height: 380px;
+        width: 240px;
+        height: auto;
+        min-height: 300px;
         max-width: 90%;
+        overflow: visible;
+    }
+    
+    .transition-image img {
+        margin-top: 3.5rem;
+        margin-bottom: 3.5rem;
     }
     
     .cta-content h2 {
