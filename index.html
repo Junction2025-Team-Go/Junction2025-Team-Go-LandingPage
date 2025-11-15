@@ -37,8 +37,8 @@
             </div>
             <div class="nav-links">
                 <a href="#features">How it works</a>
-                <a href="#ai-power">Wolt × heiLocal</a>
-                <a href="#cta">Support Team GO</a>
+                <a href="#ai-power">Wolt × hei.local</a>
+                <a href="https://heilocal.xyz/">Demo</a>
             </div>
 
         </div>
@@ -119,28 +119,28 @@
                     <div class="card-left-panel">
                         <div class="chat-interface-mockup">
                             <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 70px;">
-                                <source src="img/video1.m4v" type="video/mp4">
-                                <source src="img/video1.m4v" type="video/x-m4v">
+                                <source src="img/video1.mov" type="video/quicktime">
+                                <source src="img/video1.mov" type="video/mp4">
                                 Your browser does not support the video tag.
                             </source>
                             </video>
                         </div>
                     </div>
                     <div class="card-right-panel">
-                        <h3>See the vibe before you go</h3>
-                        <p class="feature-description">Instead of scrolling through endless text reviews, watch an 8-second short. hei-local shows you how a place feels – busy or calm, cozy or vibrant – so you can choose with confidence.</p>
+                        <h3>See the vibe of a place</h3>
+                        <p class="feature-description">Instead of scrolling through endless text reviews, watch a local short. hei-local shows you how a place feels! Busy or calm, cozy or vibrant, so you can choose with confidence.</p>
                     </div>
                 </div>
                 <div class="feature-card">
                     <div class="card-right-panel">
                         <h3>Find truly local places</h3>
-                        <p class="feature-description">We turn real photos and reviews into simple stories. Hidden cafés, small shops, neighborhood spots – surfaced for you in a format that is easy, visual, and fun.</p>
+                        <p class="feature-description">We turn real photos and reviews into simple stories. Hidden cafés, small shops, neighborhood spots, surfaced for you in a format that is easy, visual, and fun.</p>
                     </div>
                     <div class="card-left-panel">
                         <div class="chat-interface-mockup">
                             <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 70px;">
-                                <source src="img/video2.m4v" type="video/mp4">
-                                <source src="img/video2.m4v" type="video/x-m4v">
+                                <source src="img/video2.mov" type="video/quicktime">
+                                <source src="img/video2.mov" type="video/mp4">
                                 Your browser does not support the video tag.
                             </source>
                             </video>
@@ -152,8 +152,8 @@
                     <div class="card-left-panel">
                         <div class="chat-interface-mockup">
                             <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 70px;">
-                                <source src="img/video3.m4v" type="video/mp4">
-                                <source src="img/video3.m4v" type="video/x-m4v">
+                                <source src="img/video3.mov" type="video/quicktime">
+                                <source src="img/video3.mov" type="video/mp4">
                                 Your browser does not support the video tag.
                             </source>
                             </video>
@@ -215,10 +215,9 @@
                 <h2>Experience<br>hei-local in Helsinki.</h2>
                 <p>We are showcasing hei-local live at <strong>Junction 2025</strong> in Finland.<br>
                     Come and see how AI-generated local shorts can help visitors and locals discover real places, faster – and imagine how this could live inside Wolt.</p>
-                <button class="btn-primary btn-large" id="support-btn-cta">
-                    <i class="fas fa-heart"></i>
-                    Support hei-local!
-                </button>
+                <a href="https://www.heilocal.xyz/" target="_blank" class="btn-primary btn-large" id="demo-btn-cta">
+                    Try hei-local!
+                </a>
             </div>
         </div>
     </section>
@@ -302,9 +301,9 @@
                 supportBtnHero.addEventListener('click', () => handleSupportClick(supportBtnHero));
             }
             
-            if (supportBtnCta) {
-                supportBtnCta.addEventListener('click', () => handleSupportClick(supportBtnCta));
-            }
+            // CTA 버튼은 데모로 이동 (support 기능 제거)
+            const demoBtnCta = document.getElementById('demo-btn-cta');
+            // 링크로 변경했으므로 이벤트 리스너 불필요
             
             // 서버에서 현재 전세계 카운터 가져오기
             try {
@@ -325,11 +324,7 @@
                     supportBtnHero.innerHTML = '<i class="fas fa-heart"></i> Thank you for Support!';
                     supportBtnHero.disabled = true;
                 }
-                if (supportBtnCta) {
-                    supportBtnCta.classList.add('supporting');
-                    supportBtnCta.innerHTML = '<i class="fas fa-heart"></i> Thank you for Support!';
-                    supportBtnCta.disabled = true;
-                }
+                // CTA 버튼은 데모 링크이므로 support 상태 복원 불필요
             }
         });
         
