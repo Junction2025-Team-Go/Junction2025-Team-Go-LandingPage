@@ -91,7 +91,7 @@
                     <img src="img/icon.png" alt="Hei-Local Icon" class="icon-image">
                 </div>
                 <h1 class="counter-title">
-                    <span id="total-supporters">12</span> people are supporting hei-local!
+                    <span id="total-supporters">...</span> people are supporting hei-local!
                 </h1>
                 <p class="counter-description">Built at Junction 2025 in Finland, hei-local is a prototype that reimagines local discovery.<br><br>We are Team GO, using AI and Wolt's local commerce vision to help people connect with real neighborhoods, not just tourist spots.</p>
             </div>
@@ -255,10 +255,67 @@
 
     <script src="script.js"></script>
     <script>
+        // 서버에서 현재 전세계 카운터 가져오기 함수
+        async function fetchSupportersCount() {
+            try {
+                console.log('🔄 카운터 조회 시작...');
+                const response = await fetch('http://teamgo.store/api/supporters', {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                console.log('📡 카운터 조회 응답 상태:', response.status, response.statusText);
+                const data = await response.json();
+                console.log('📦 카운터 조회 응답 데이터:', data);
+                
+                const counter = document.getElementById('total-supporters');
+                console.log('🔢 카운터 엘리먼트:', counter);
+                
+                if (counter) {
+                    const count = data['total-supporters'] || data.totalSupporters;
+                    if (count !== undefined && count !== null) {
+                        console.log('✨ 설정할 카운터 값:', count);
+                        counter.textContent = count;
+                        console.log('✅ 카운터 설정 완료:', counter.textContent);
+                        return count;
+                    } else {
+                        console.warn('⚠️ 카운터 값이 없습니다. 기본값 사용');
+                        counter.textContent = '?';
+                        return null;
+                    }
+                } else {
+                    console.error('❌ 카운터 엘리먼트를 찾을 수 없습니다!');
+                    return null;
+                }
+            } catch (error) {
+                console.error('❌ Error fetching counter:', error);
+                console.error('❌ Error details:', error.message);
+                
+                // CORS 에러인 경우 서버 측에서 해결 필요
+                if (error.message.includes('CORS') || error.message.includes('Failed to fetch')) {
+                    console.warn('⚠️ CORS 문제 발생. 서버 측에서 CORS 헤더 설정이 필요합니다.');
+                }
+                
+                const counter = document.getElementById('total-supporters');
+                if (counter) {
+                    counter.textContent = '?';
+                }
+                return null;
+            }
+        }
+        
         // Support 버튼 클릭 이벤트
         async function handleSupportClick(button) {
             if (!button.classList.contains('supporting')) {
                 try {
+                    console.log('🔄 Support 버튼 클릭됨, 서버에 요청 전송...');
                     // 서버에 카운터 증가 요청
                     const response = await fetch('http://teamgo.store/api/support', {
                         method: 'POST',
@@ -267,30 +324,45 @@
                         }
                     });
                     
+                    console.log('📡 서버 응답 상태:', response.status, response.statusText);
                     const data = await response.json();
+                    console.log('📦 서버 응답 데이터:', data);
                     
-                    if (data.success) {
-                        // 버튼 상태 변경
-                        button.classList.add('supporting');
-                        button.innerHTML = '<i class="fas fa-heart"></i> Thank you for Support!';
-                        button.disabled = true;
-                        
-                        // 전세계 카운터 업데이트
-                        const counter = document.getElementById('total-supporters');
-                        if (counter) {
-                            counter.textContent = data.totalSupporters;
+                    // 버튼 상태 변경
+                    button.classList.add('supporting');
+                    button.innerHTML = '<i class="fas fa-heart"></i> Thank you for Support!';
+                    button.disabled = true;
+                    
+                    // 전세계 카운터 업데이트
+                    const counter = document.getElementById('total-supporters');
+                    console.log('🔢 카운터 엘리먼트:', counter);
+                    if (counter) {
+                        const newCount = data['total-supporters'] || data.totalSupporters;
+                        console.log('✨ 새로운 카운터 값:', newCount);
+                        if (newCount !== undefined && newCount !== null) {
+                            counter.textContent = newCount;
+                        } else {
+                            console.warn('⚠️ 카운터 값이 없습니다.');
+                            // 서버에서 다시 가져오기 시도
+                            fetchSupportersCount();
                         }
-                        
-                        // 로컬 스토리지에 저장
-                        localStorage.setItem('hei-local-supported', 'true');
+                        console.log('✅ 카운터 업데이트 완료:', counter.textContent);
+                    } else {
+                        console.error('❌ 카운터 엘리먼트를 찾을 수 없습니다!');
                     }
+                    
+                    // 로컬 스토리지에 저장
+                    localStorage.setItem('hei-local-supported', 'true');
                 } catch (error) {
-                    console.error('Error updating counter:', error);
+                    console.error('❌ Error updating counter:', error);
+                    console.error('❌ Error details:', error.message, error.stack);
                     // 에러 발생 시에도 로컬 상태는 변경
                     button.classList.add('supporting');
                     button.innerHTML = '<i class="fas fa-heart"></i> Thank you for Support!';
                     button.disabled = true;
                 }
+            } else {
+                console.log('⚠️ 이미 지원한 상태입니다.');
             }
         }
         
@@ -307,17 +379,9 @@
             const demoBtnCta = document.getElementById('demo-btn-cta');
             // 링크로 변경했으므로 이벤트 리스너 불필요
             
-            // 서버에서 현재 전세계 카운터 가져오기
-            try {
-                const response = await fetch('http://teamgo.store/api/supporters');
-                const data = await response.json();
-                const counter = document.getElementById('total-supporters');
-                if (counter) {
-                    counter.textContent = data.totalSupporters;
-                }
-            } catch (error) {
-                console.error('Error fetching counter:', error);
-            }
+            // 페이지 로드 시 카운터 가져오기
+            console.log('🔄 페이지 로드: 카운터 조회 시작...');
+            fetchSupportersCount();
             
             // 이전에 지원한 경우 버튼 상태 복원
             if (localStorage.getItem('hei-local-supported') === 'true') {
