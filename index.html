@@ -260,7 +260,7 @@
             if (!button.classList.contains('supporting')) {
                 try {
                     // 서버에 카운터 증가 요청
-                    const response = await fetch('https://baburger.xyz/api/support', {
+                    const response = await fetch('http://teamgo.store/api/support', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -309,7 +309,7 @@
             
             // 서버에서 현재 전세계 카운터 가져오기
             try {
-                const response = await fetch('https://baburger.xyz/api/supporters');
+                const response = await fetch('http://teamgo.store/api/supporters');
                 const data = await response.json();
                 const counter = document.getElementById('total-supporters');
                 if (counter) {
