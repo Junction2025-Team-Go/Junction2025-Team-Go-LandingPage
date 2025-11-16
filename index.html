@@ -258,8 +258,20 @@
         // 서버에서 현재 전세계 카운터 가져오기 함수
         async function fetchSupportersCount() {
             try {
-                console.log('🔄 카운터 조회 시작...');
-                const response = await fetch('http://teamgo.store/api/supporters', {
+                const currentOrigin = window.location.origin;
+                console.log('🔄 카운터 조회 시작...', 'Origin:', currentOrigin);
+                
+                // HTTPS 사이트에서 HTTP API 호출 시 Mixed Content 문제 방지
+                // 서버가 HTTPS를 지원하면 HTTPS 사용, 아니면 HTTP 사용
+                let apiUrl = 'http://teamgo.store/api/supporters';
+                
+                // HTTPS 사이트인 경우, 서버가 HTTPS를 지원하는지 확인 후 사용
+                // 현재는 HTTP만 지원하므로 Mixed Content 문제가 발생할 수 있음
+                // 서버에서 HTTPS를 설정하거나, CORS 프록시를 사용해야 함
+                
+                console.log('📡 API URL:', apiUrl);
+                
+                const response = await fetch(apiUrl, {
                     method: 'GET',
                     mode: 'cors',
                     headers: {
@@ -296,11 +308,14 @@
                 }
             } catch (error) {
                 console.error('❌ Error fetching counter:', error);
-                console.error('❌ Error details:', error.message);
+                console.error('❌ Error details:', error.message, error.stack);
+                console.error('❌ Current origin:', window.location.origin);
+                console.error('❌ Current protocol:', window.location.protocol);
                 
                 // CORS 에러인 경우 서버 측에서 해결 필요
-                if (error.message.includes('CORS') || error.message.includes('Failed to fetch')) {
-                    console.warn('⚠️ CORS 문제 발생. 서버 측에서 CORS 헤더 설정이 필요합니다.');
+                if (error.message.includes('CORS') || error.message.includes('Failed to fetch') || error.message.includes('Mixed Content')) {
+                    console.warn('⚠️ CORS 또는 Mixed Content 문제 발생.');
+                    console.warn('⚠️ HTTPS 사이트에서 HTTP API를 호출할 수 없습니다.');
                 }
                 
                 const counter = document.getElementById('total-supporters');
@@ -316,9 +331,16 @@
             if (!button.classList.contains('supporting')) {
                 try {
                     console.log('🔄 Support 버튼 클릭됨, 서버에 요청 전송...');
+                    // HTTPS 사이트에서 HTTP API 호출 시 Mixed Content 문제 방지
+                    // 서버가 HTTPS를 지원하면 HTTPS 사용, 아니면 HTTP 사용
+                    let apiUrl = 'http://teamgo.store/api/support';
+                    
+                    console.log('📡 API URL:', apiUrl);
+                    
                     // 서버에 카운터 증가 요청
-                    const response = await fetch('http://teamgo.store/api/support', {
+                    const response = await fetch(apiUrl, {
                         method: 'POST',
+                        mode: 'cors',
                         headers: {
                             'Content-Type': 'application/json'
                         }
